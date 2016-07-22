@@ -8,6 +8,7 @@ public class CrazyEightsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_crazy_eights);
+        CrazyEightsView crazyEightsView = new CrazyEightsView(this);
+        setContentView(crazyEightsView);
     }
 }
