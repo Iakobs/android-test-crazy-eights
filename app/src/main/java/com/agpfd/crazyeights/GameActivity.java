@@ -5,15 +5,18 @@ import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 
-public class CrazyEightsActivity extends Activity {
-
+/**
+ * @author <a mailto="jacobibanez@jacobibanez.com">Jacob Ibáñez Sánchez</a>
+ * @since 22/07/2016
+ */
+public class GameActivity extends Activity {
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        TitleView titleView = new TitleView(this);
-        titleView.setKeepScreenOn(true);
+        GameView gameView = new GameView(this);
+        gameView.setKeepScreenOn(true);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(titleView);
+        setContentView(gameView);
     }
 }
