@@ -1,0 +1,8 @@
+<resources>
+    <string-array name="suits">
+        <item>Diamants</item>
+        <item>Trèbols</item>
+        <item>Cors</item>
+        <item>Piques</item>
+    </string-array>
+</resources>

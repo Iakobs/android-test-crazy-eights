@@ -1,4 +1,15 @@
 <resources>
     <string name="app_name">Crazy Eights</string>
     <string name="crazy_eights">Hello World, Crazy Eights Activity!</string>
+    <string name="computer_score">Computer score: </string>
+    <string name="my_score">My score: </string>
+    <string name="choose_suit">Choose a suit.</string>
+    <string name="ok">Ok</string>
+    <string name="diamonds">Diamonds</string>
+    <string name="clubs">Clubs</string>
+    <string name="hearts">Hearts</string>
+    <string name="spades">Spades</string>
+    <string name="you_choose">You choose</string>
+    <string name="opp_choose">Computer choose</string>
+    <string name="valid_play">You have a valid play.</string>
 </resources>
