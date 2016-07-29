@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Los Ochos Locos</string>
     <string name="crazy_eights">¡Hola Mundo, desde la actividad de Los Ochos Locos!</string>
-    <string name="computer_score">Puntuación de la máquina: </string>
-    <string name="my_score">Mi puntuación: </string>
+    <string name="computer_score">Puntuación de la máquina: %1d</string>
+    <string name="my_score">Mi puntuación: %1d</string>
     <string name="choose_suit">Escoge un palo.</string>
     <string name="ok">Ok</string>
     <string name="clubs">Tréboles</string>
@@ -12,4 +12,8 @@
     <string name="you_choose">Has escogido</string>
     <string name="valid_play">Ya tienes una mano válida.</string>
     <string name="opp_choose">La máquina ha escogido</string>
+    <string name="next_hand">Siguiente Mano</string>
+    <string name="computer_end">La máquina te ha ganado y ha conseguido %1d puntos</string>
+    <string name="new_game">Nueva Partida</string>
+    <string name="you_end">Has ganado y has conseguido %1d puntos!</string>
 </resources>

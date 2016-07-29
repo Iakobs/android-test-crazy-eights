@@ -2,6 +2,7 @@ package com.agpfd.crazyeights;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -13,6 +14,7 @@ import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -42,6 +44,7 @@ public class GameView extends View {
     private int screenH;
     private int myScore;
     private int oppScore;
+    private int scoreThisHand;
     private int movingCardIdx = -1;
     private int movingX;
     private int movingY;
@@ -52,12 +55,14 @@ public class GameView extends View {
     private float scale;
     private boolean myTurn;
     private ComputerPlayer computerPlayer = new ComputerPlayer();
+    private Resources res;
 
 
     public GameView(Context context) {
         super(context);
         myContext = context;
-        scale = myContext.getResources().getDisplayMetrics().density;
+        res = myContext.getResources();
+        scale = res.getDisplayMetrics().density;
         xOffset = (int) (30 * scale);
         yOffset = (int) (90 * scale);
         blackPaint = new Paint();
@@ -75,7 +80,7 @@ public class GameView extends View {
                 Card tempCard = new Card(tempId);
                 int resourceId = getResources().getIdentifier("card" + tempId,
                         "drawable", myContext.getPackageName());
-                Bitmap tempBitmap = BitmapFactory.decodeResource(myContext.getResources(),
+                Bitmap tempBitmap = BitmapFactory.decodeResource(res,
                         resourceId);
                 scaledCardW = (screenW / CARD_W_SCALE);
                 scaledCardH = (int) (scaledCardW * 1.28);
@@ -109,10 +114,8 @@ public class GameView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        canvas.drawText(myContext.getResources().getString(R.string.computer_score) +
-                " " + Integer.toString(oppScore), 10, blackPaint.getTextSize() + 10, blackPaint);
-        canvas.drawText(myContext.getResources().getString(R.string.my_score) +
-                        " " + Integer.toString(myScore), 10, screenH - blackPaint.getTextSize() - 10,
+        canvas.drawText(res.getString(R.string.computer_score, oppScore), 10, blackPaint.getTextSize() + 10, blackPaint);
+        canvas.drawText(res.getString(R.string.my_score, myScore), 10, screenH - blackPaint.getTextSize() - 10,
                 blackPaint);
         for (int i = 0; i < oppHand.size(); i++) {
             canvas.drawBitmap(cardBack, i * (scale * 5),
@@ -151,12 +154,12 @@ public class GameView extends View {
         initCards();
         dealCards();
         drawCard(discardPile);
-        Bitmap tempBitmap = BitmapFactory.decodeResource(myContext.getResources(),
+        Bitmap tempBitmap = BitmapFactory.decodeResource(res,
                 R.drawable.card_back);
         cardBack = Bitmap.createScaledBitmap(tempBitmap, scaledCardW, scaledCardH, false);
         validRank = discardPile.get(0).getRank();
         validSuit = discardPile.get(0).getSuit();
-        nextCardButton = BitmapFactory.decodeResource(myContext.getResources(),
+        nextCardButton = BitmapFactory.decodeResource(res,
                 R.drawable.arrow_next);
         myTurn = new Random().nextBoolean();
         if (!myTurn) makeComputerPlay();
@@ -199,7 +202,7 @@ public class GameView extends View {
                     discardPile.add(0, myHand.get(movingCardIdx));
                     myHand.remove(movingCardIdx);
                     if (myHand.isEmpty()) {
-                        //@TODO: 26/07/2016 Handle end of hand
+                        endHand();
                     } else {
                         if (validRank == 8) {
                             showChooseSuitsDialog();
@@ -250,17 +253,17 @@ public class GameView extends View {
                 validSuit = (suitSpinner.getSelectedItemPosition() + 1) * 100;
                 String suitText = "";
                 if (validSuit == 100) {
-                    suitText = myContext.getResources().getString(R.string.diamonds);
+                    suitText = res.getString(R.string.diamonds);
                 } else if (validSuit == 200) {
-                    suitText = myContext.getResources().getString(R.string.clubs);
+                    suitText = res.getString(R.string.clubs);
                 } else if (validSuit == 300) {
-                    suitText = myContext.getResources().getString(R.string.hearts);
+                    suitText = res.getString(R.string.hearts);
                 } else if (validSuit == 400) {
-                    suitText = myContext.getResources().getString(R.string.spades);
+                    suitText = res.getString(R.string.spades);
                 }
                 chooseSuitDialog.dismiss();
                 Toast.makeText(myContext,
-                        myContext.getResources().getString(R.string.you_choose) + " " + suitText,
+                        res.getString(R.string.you_choose) + " " + suitText,
                         Toast.LENGTH_SHORT).show();
                 myTurn = false;
                 makeComputerPlay();
@@ -294,16 +297,16 @@ public class GameView extends View {
             validSuit = computerPlayer.chooseSuit(oppHand);
             String suitText = "";
             if (validSuit == 100) {
-                suitText = myContext.getResources().getString(R.string.diamonds);
+                suitText = res.getString(R.string.diamonds);
             } else if (validSuit == 200) {
-                suitText = myContext.getResources().getString(R.string.clubs);
+                suitText = res.getString(R.string.clubs);
             } else if (validSuit == 300) {
-                suitText = myContext.getResources().getString(R.string.hearts);
+                suitText = res.getString(R.string.hearts);
             } else if (validSuit == 400) {
-                suitText = myContext.getResources().getString(R.string.spades);
+                suitText = res.getString(R.string.spades);
             }
             Toast.makeText(myContext,
-                    myContext.getResources().getString(R.string.you_choose) + " " + suitText,
+                    res.getString(R.string.opp_choose) + " " + suitText,
                     Toast.LENGTH_SHORT).show();
         } else {
             validSuit = Math.round((tempPlay / 100) * 100);
@@ -316,6 +319,68 @@ public class GameView extends View {
                 oppHand.remove(i);
             }
         }
+        if (oppHand.isEmpty()) {
+            endHand();
+        }
         myTurn = true;
+    }
+
+    private void updateScores() {
+        for (int i = 0; i < myHand.size(); i++) {
+            oppScore += myHand.get(i).getScoreValue();
+            scoreThisHand += myHand.get(i).getScoreValue();
+        }
+        for (int i = 0; i < oppHand.size(); i++) {
+            myScore += oppHand.get(i).getScoreValue();
+            scoreThisHand += oppHand.get(i).getScoreValue();
+        }
+    }
+
+    private void endHand() {
+        final Dialog endHandDialog = new Dialog(myContext);
+        endHandDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        endHandDialog.setContentView(R.layout.end_hand_dialog);
+        updateScores();
+        TextView endHandText = (TextView) endHandDialog.findViewById(R.id.endHandText);
+        endHandText.setTextColor(Color.BLACK);
+        if (myHand.isEmpty()) {
+            endHandText.setText(res.getString(R.string.you_end, scoreThisHand));
+        } else if (oppHand.isEmpty()) {
+            endHandText.setText(res.getString(R.string.computer_end, scoreThisHand));
+        }
+        Button nextHandButton = (Button) endHandDialog.findViewById(R.id.nextHandButton);
+        if (oppScore >= 300 || myScore >= 300) {
+            nextHandButton.setText(res.getString(R.string.new_game));
+        }
+        nextHandButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                initNewHand();
+                endHandDialog.dismiss();
+            }
+        });
+        endHandDialog.show();
+    }
+
+    private void initNewHand() {
+        scoreThisHand = 0;
+        if (myHand.isEmpty()) {
+            myTurn = true;
+        } else if (oppHand.isEmpty()) {
+            myTurn = false;
+        }
+        deck.addAll(discardPile);
+        deck.addAll(myHand);
+        deck.addAll(oppHand);
+        discardPile.clear();
+        myHand.clear();
+        oppHand.clear();
+        dealCards();
+        drawCard(discardPile);
+        validSuit = discardPile.get(0).getSuit();
+        validRank = discardPile.get(0).getRank();
+        if (!myTurn) {
+            makeComputerPlay();
+        }
     }
 }

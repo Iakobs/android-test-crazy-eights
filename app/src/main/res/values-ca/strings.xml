@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Els Vuits Bojos</string>
     <string name="crazy_eights">Hola Món, des de l\'activitat dels Vuits Bojos!</string>
-    <string name="computer_score">Puntuació de la màquina: </string>
-    <string name="my_score">La meva puntuació: </string>
+    <string name="computer_score">Puntuació de la màquina: %1d</string>
+    <string name="my_score">La meva puntuació: %1d</string>
     <string name="choose_suit">Tria un pal.</string>
     <string name="ok">D\'acord</string>
     <string name="clubs">Trèbols</string>
@@ -12,4 +12,8 @@
     <string name="you_choose">Has triat</string>
     <string name="valid_play">Ja tens una mà vàlida.</string>
     <string name="opp_choose">La màquina ha triat</string>
+    <string name="next_hand">Següent Mà</string>
+    <string name="computer_end">La màquina t\'ha guanyat i ha aconseguit %1d punts</string>
+    <string name="new_game">Nova Partida</string>
+    <string name="you_end">Has guanyat i has aconseguit %1d punts!</string>
 </resources>
